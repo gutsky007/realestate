@@ -6,7 +6,8 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Backend\PropertyTypeController;
-
+use App\Http\Controllers\Backend\PropertyController;
+use Illuminate\Auth\Middleware\RedirectIfAuthenticated;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
@@ -38,8 +39,8 @@ Route::middleware(['auth','role:admin'])->group(function (){
     Route::get('/admin/change/password', [AdminController::class, 'AdminChangePassword'])->name('admin.change.password');
     Route::post('/admin/update/password', [AdminController::class, 'AdminUpdatePassword'])->name('admin.update.password');
 });//END GROUP ADMIN MIDDLEWARE
-Route::get('/admin/login', [AdminController::class, 'AdminLogin'])->name('admin.login');
-
+Route::get('/admin/login', [AdminController::class, 'AdminLogin'])->name('admin.login')
+->middleware(RedirectIfAuthenticated::class); 
 
 //AGENT GROUP MIDDLEWARE
 Route::middleware(['auth', 'role:agent'])->group(function () {
@@ -50,7 +51,7 @@ Route::middleware(['auth', 'role:agent'])->group(function () {
 //ADMIN GROUP MIDDLEWARE
 Route::middleware(['auth','role:admin'])->group(function (){
     
-    //Property amenities AllType Route
+    //PropertyType Route
     Route::controller(PropertyTypeController::class)->group(function () {
         Route::get('/all/type','AllType')->name('all.type');
         Route::get('/add/type','AddType')->name('add.type');
@@ -60,14 +61,40 @@ Route::middleware(['auth','role:admin'])->group(function (){
         Route::get('/delete/type/{id}','DeleteType')->name('delete.type');
     });  
 
-       //Amenities All  Route
-       Route::controller(PropertyTypeController::class)->group(function () {
+       //Amenities Route
+    Route::controller(PropertyTypeController::class)->group(function () {
         Route::get('/all/amenities','AllAmenities')->name('all.amenities');
         Route::get('/add/amenities','AddAmenities')->name('add.amenities');
         Route::post('/store/amenities','StoreAmenities')->name('store.amenities');
         Route::get('/edit/amenities/{id}','EditAmenities')->name('edit.amenities');
         Route::post('/update/amenities','UpdateAmenities')->name('update.amenities');
         Route::get('/delete/amenities/{id}','DeleteAmenities')->name('delete.amenities');
+    });  
+
+        //Property Route
+    Route::controller(PropertyController::class)->group(function () {
+        Route::get('/all/property','AllProperty')->name('all.property');
+        Route::get('/add/property','AddProperty')->name('add.property');
+        Route::post('/store/property','StoreProperty')->name('store.property');
+        Route::get('/edit/property/{id}', 'EditProperty')->name('edit.property');
+        Route::post('/update/property', 'UpdateProperty')->name('update.property');
+        Route::post('/update/property/thumbnail', 'UpdatePropertyThumbnail')->name('update.property.thumbnail');
+        Route::post('/update/property/multiimage', 'UpdatePropertyMultiimage')->name('update.property.multiimage');
+        Route::get('/property/multiimg/delete/{id}', 'PropertyMultiImageDelete')->name('property.multiimg.delete');
+        Route::post('/store/new/multiimage', 'StoreNewMultiimage')->name('store.new.multiimage');
+        Route::post('/update/property/facilities', 'UpdatePropertyFacilities')->name('update.property.facilities');
+        Route::get('/delete/property/{id}', 'DeleteProperty')->name('delete.property');
+        Route::get('/details/property/{id}', 'DetailsProperty')->name('details.property');
+        Route::post('/inactive/property', 'InactiveProperty')->name('inactive.property');
+        Route::post('/active/property', 'ActiveProperty')->name('active.property');
+  
+
+
+
+
+
+
+
     });  
 });//END GROUP ADMIN MIDDLEWARE
 

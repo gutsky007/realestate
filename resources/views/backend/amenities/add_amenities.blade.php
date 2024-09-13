@@ -39,7 +39,7 @@
                     
                 },
                 messages :{
-                    field_name: {
+                    amenities_name: {
                         required : 'Please Enter Amenities Name',
                     }, 
                 },

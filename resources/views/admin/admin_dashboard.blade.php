@@ -22,6 +22,9 @@
 	<!-- endinject -->
 
 	<!-- Plugin css for this page -->
+	<link rel="stylesheet" href="{{ asset('backend/assets/vendors/select2/select2.min.css') }}">
+	<link rel="stylesheet" href="{{ asset('backend/assets/vendors/jquery-tags-input/jquery.tagsinput.min.css') }}">
+
 	<link rel="stylesheet" href="{{ asset('backend/assets/vendors/flatpickr/flatpickr.min.css') }}">
 	<!-- End plugin css for this page -->
 
@@ -109,7 +112,7 @@
 		@endif 
 		</script>
 
-{{-- Add Sweetalert --}}
+	{{-- Add Sweetalert --}}
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>	
 	<script src="{{ asset('backend/assets/js/code/code.js') }}"></script>
 	<script src="{{ asset('backend/assets/js/code/validate.min.js') }}"></script>
@@ -124,7 +127,25 @@
   <script src="{{ asset('backend/assets/js/data-table.js') }}"></script>
 	<!-- End custom js for all_type.blade.php page -->
 
-		
+		{{-- Input Tags --}}
+		<script src="{{ asset('backend/assets/vendors/inputmask/jquery.inputmask.min.js') }}"></script>
+		<script src="{{ asset('backend/assets/vendors/select2/select2.min.js') }}"></script>
+		<script src="{{ asset('backend/assets/vendors/typeahead.js/typeahead.bundle.min.js') }}"></script>
+		<script src="{{ asset('backend/assets/vendors/jquery-tags-input/jquery.tagsinput.min.js') }}"></script>
+		{{-- End Input tags --}}
+
+		{{-- custom js for input tags --}}
+		<script src="{{ asset('backend/assets/js/inputmask.js') }}"></script>
+		<script src="{{ asset('backend/assets/js/select2.js') }}"></script>
+		<script src="{{ asset('backend/assets/js/typeahead.js') }}"></script>
+		<script src="{{ asset('backend/assets/js/tags-input.js') }}"></script>
+		{{-- end custom js for input tags --}}
+
+	{{-- TinyMCE --}}
+	<script src="{{ asset('backend/assets/vendors/tinymce/tinymce.min.js') }}"></script>
+	{{-- custom JS fot TinyMCE --}}
+	<script src="{{ asset('backend/assets/js/tinymce.js') }}"></script>
+	
 
 
 </body>
