@@ -45,7 +45,16 @@ Route::get('/admin/login', [AdminController::class, 'AdminLogin'])->name('admin.
 //AGENT GROUP MIDDLEWARE
 Route::middleware(['auth', 'role:agent'])->group(function () {
     Route::get('/agent/dashboard', [AgentController::class, 'AgentDashboard'])->name('agent.dashboard');
+    Route::get('/agent/logout', [AgentController::class, 'AgentLogout'])->name('agent.logout');
+    Route::get('/agent/profile', [AgentController::class, 'AgentProfile'])->name('agent.profile');
+    Route::post('/agent/profile/store', [AgentController::class, 'AgentProfileStore'])->name('agent.profile.store');
+    Route::get('/agent/change/password', [AgentController::class, 'AgentChangePassword'])->name('agent.change.password');
+    Route::post('/agent/update/password', [AgentController::class, 'AgentUpdatePassword'])->name('agent.update.password');
+
 });//END GROUP AGENT MIDDLEWARE
+Route::get('/agent/login', [AgentController::class, 'AgentLogin'])->name('agent.login')->middleware(RedirectIfAuthenticated::class); 
+Route::post('/agent/register', [AgentController::class, 'AgentRegister'])->name('agent.register'); 
+
 
 
 //ADMIN GROUP MIDDLEWARE
