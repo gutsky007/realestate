@@ -7,6 +7,7 @@ use App\Http\Controllers\AgentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Backend\PropertyTypeController;
 use App\Http\Controllers\Backend\PropertyController;
+use App\Http\Controllers\Agent\AgentPropertyController;
 use Illuminate\Auth\Middleware\RedirectIfAuthenticated;
 // Route::get('/', function () {
 //     return view('welcome');
@@ -42,6 +43,8 @@ Route::middleware(['auth','role:admin'])->group(function (){
 Route::get('/admin/login', [AdminController::class, 'AdminLogin'])->name('admin.login')
 ->middleware(RedirectIfAuthenticated::class); 
 
+
+
 //AGENT GROUP MIDDLEWARE
 Route::middleware(['auth', 'role:agent'])->group(function () {
     Route::get('/agent/dashboard', [AgentController::class, 'AgentDashboard'])->name('agent.dashboard');
@@ -51,10 +54,41 @@ Route::middleware(['auth', 'role:agent'])->group(function () {
     Route::get('/agent/change/password', [AgentController::class, 'AgentChangePassword'])->name('agent.change.password');
     Route::post('/agent/update/password', [AgentController::class, 'AgentUpdatePassword'])->name('agent.update.password');
 
+
+     // Agent All Property  
+    Route::controller(AgentPropertyController::class)->group(function(){
+    Route::get('/agent/all/property', 'AgentAllProperty')->name('agent.all.property'); 
+    Route::get('/agent/add/property', 'AgentAddProperty')->name('agent.add.property'); 
+    Route::post('/agent/store/property', 'AgentStoreProperty')->name('agent.store.property');
+    Route::get('/agent/edit/property/{id}', 'AgentEditProperty')->name('agent.edit.property'); 
+    Route::post('/agent/update/property', 'AgentUpdateProperty')->name('agent.update.property'); 
+    Route::post('/agent/update/property/thumbnail', 'AgentUpdatePropertyThumbnail')->name('agent.update.property.thumbnail'); 
+    Route::post('/agent/update/property/multiimage', 'AgentUpdatePropertyMultiimage')->name('agent.update.property.multiimage'); 
+    Route::get('/agent/property/multiimg/delete/{id}', 'AgentPropertyMultiimgDelete')->name('agent.property.multiimg.delete'); 
+    Route::post('/agent/store/new/multiimage', 'AgentStoreNewMultiimage')->name('agent.store.new.multiimage');
+    Route::post('/agent/update/property/facilities', 'AgentUpdatePropertyFacilities')->name('agent.update.property.facilities');
+    Route::get('/agent/details/property/{id}', 'AgentDetailsProperty')->name('agent.details.property'); 
+    Route::get('/agent/delete/property/{id}', 'AgentDeleteProperty')->name('agent.delete.property'); 
+
+
+    
+});
+
 });//END GROUP AGENT MIDDLEWARE
 Route::get('/agent/login', [AgentController::class, 'AgentLogin'])->name('agent.login')->middleware(RedirectIfAuthenticated::class); 
 Route::post('/agent/register', [AgentController::class, 'AgentRegister'])->name('agent.register'); 
 
+// Agent All Route from admin 
+Route::controller(AdminController::class)->group(function(){
+    Route::get('/all/agent', 'AllAgent')->name('all.agent');
+    Route::get('/add/agent', 'AddAgent')->name('add.agent');
+    Route::post('/store/agent', 'StoreAgent')->name('store.agent'); 
+    Route::get('/edit/agent/{id}', 'EditAgent')->name('edit.agent');
+    Route::post('/update/agent', 'UpdateAgent')->name('update.agent');
+    Route::get('/delete/agent/{id}', 'DeleteAgent')->name('delete.agent');
+    Route::get('/changeStatus', 'changeStatus');
+
+});
 
 
 //ADMIN GROUP MIDDLEWARE

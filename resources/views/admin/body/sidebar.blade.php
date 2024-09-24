@@ -87,8 +87,28 @@
                 </div>
               </li>      
 
+          <li class="nav-item nav-category">User All Function</li>
+          <li class="nav-item">
+              <a class="nav-link" data-bs-toggle="collapse" href="#uiComponents" role="button" aria-expanded="false" aria-controls="uiComponents">
+                <i class="link-icon" data-feather="feather"></i>
+                <span class="link-title">Manage Agent </span>
+                <i class="link-arrow" data-feather="chevron-down"></i>
+              </a>
+              <div class="collapse" id="uiComponents">
+              <ul class="nav sub-menu">
+
+                <li class="nav-item">
+                  <a href="{{ route('all.agent') }}" class="nav-link">All Agent </a>
+                </li>
+                {{-- <li class="nav-item">
+                  <a href="{{ route('add.agent') }}" class="nav-link">Add Agent</a>
+                </li> --}}
+
+              </ul>
 
         </ul>
+
+        
     </div>
     
 </nav>

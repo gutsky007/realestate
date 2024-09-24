@@ -1,6 +1,6 @@
-@extends('admin.admin_dashboard')
-@section('admin')
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+@extends('agent.agent_dashboard')
+@section('agent')
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 
       {{--  --}}
 			<div class="page-content">
@@ -11,7 +11,7 @@
               <div class="card">
                 <div class="card-body">
                   <h6 class="card-title">Edit Property</h6>
-                    <form method="POST" action="{{ route('update.property') }}" id="myForm" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('agent.update.property') }}" id="myForm" enctype="multipart/form-data">
                       @csrf
 
                       <input type="hidden" name="id" value="{{ $property->id }}">
@@ -215,24 +215,11 @@
                               @foreach ( $amenities as $ameni )
                               
                               <option value="{{ $ameni->amenities_name }}" {{ (in_array($ameni->amenities_name,$property_ami)) ? 'selected' : '' }} >{{ $ameni->amenities_name }}</option>
-                              
+                                
                               @endforeach
                               
                               
                             </select>
-                          </div>
-                        </div>
-
-
-                        <div class="col-sm-4">
-                          <div class="mb-3">
-                            <label class="form-label">Agent</label>
-                            <select name="agent_id" class="form-select" id="" value="{{ $property->agent }}">
-                            <option selected="" disabled="">Select Agent</option>
-                            @foreach ( $activeAgent as $agent )
-                              <option value="{{ $agent->id }}" {{ $agent->id == $property->agent_id ? 'selected' : '' }}>{{ $agent->name }}</option>            
-                            @endforeach
-                          </select>
                           </div>
                         </div>
 
@@ -389,7 +376,7 @@
                     </div>
                   </form>
 
-                  <form method="post" action="{{ route('store.new.multiimage') }}" id="myForm" enctype="multipart/form-data">
+                  <form method="post" action="{{ route('agent.store.new.multiimage') }}" id="myForm" enctype="multipart/form-data">
                     @csrf
     
                     <input type="hidden" name="imageid" value="{{ $property->id }}">
@@ -424,7 +411,7 @@
                 <div class="card-body">
                 <h6 class="card-title">Edit Property Facility  </h6>
                 
-                <form method="post" action="{{ route('update.property.facilities') }}" id="myForm" enctype="multipart/form-data">
+                <form method="post" action="{{ route('agent.update.property.facilities') }}" id="myForm" enctype="multipart/form-data">
                   @csrf
                   <input type="hidden" name="id" value="{{ $property->id }}">   
                   
@@ -480,9 +467,6 @@
       </div> 
     
 
-
-
-
 <!--========== Start of add multiple class with ajax ==============-->
 <div style="visibility: hidden">
   <div class="whole_extra_item_add" id="whole_extra_item_add">
@@ -490,8 +474,8 @@
       <div class="container mt-2">
         <div class="row">
 
-         <div class="form-group col-md-4">
-         
+        <div class="form-group col-md-4">
+        
           <label for="facility_name">Facilities</label>
             <select name="facility_name[]" id="facility_name" class="form-control">
                   <option value="">Select Facility</option>
@@ -507,14 +491,14 @@
                   <option value="Mall">Mall</option>
                   <option value="Bank">Bank</option>
             </select>
-         
+        
         </div>
-         
+        
           <div class="form-group col-md-4">
             <label for="distance">Distance</label>
             <input type="text" name="distance[]" id="distance" class="form-control" placeholder="Distance (Km)">
           </div>
-         
+        
           <div class="form-group col-md-4" style="padding-top: 20px">
             <span class="btn btn-success btn-sm addeventmore"><i class="fa fa-plus-circle">Add</i></span>
             <span class="btn btn-danger btn-sm removeeventmore"><i class="fa fa-minus-circle">Remove</i></span>
@@ -585,5 +569,7 @@ $(document).on("click",".removeeventmore",function(event){
       });
       
     </script>
+
+
 
 @endsection
