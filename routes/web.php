@@ -76,6 +76,9 @@ Route::controller(AgentPropertyController::class)->group(function(){
     Route::post('/store/business/plan', 'StoreBusinessPlan')->name('store.business.plan');
     Route::get('/buy/professional/plan', 'BuyProfessionalPlan')->name('buy.professional.plan');
     Route::post('/store/professional/plan', 'StoreProfessionalPlan')->name('store.professional.plan');
+    Route::get('/package/history', 'PackageHistory')->name('package.history');
+    Route::get('/agent/package/invoice/{id}', 'AgentPackageInvoice')->name('agent.package.invoice');
+
 
 });
 
