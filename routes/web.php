@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\Backend\PropertyTypeController;
 use App\Http\Controllers\Backend\PropertyController;
 use App\Http\Controllers\Agent\AgentPropertyController;
+use App\Http\Controllers\Frontend\IndexController;
 use Illuminate\Auth\Middleware\RedirectIfAuthenticated;
 // Route::get('/', function () {
 //     return view('welcome');
@@ -87,6 +88,9 @@ Route::get('/agent/login', [AgentController::class, 'AgentLogin'])->name('agent.
 Route::post('/agent/register', [AgentController::class, 'AgentRegister'])->name('agent.register'); 
 
 
+// Frontend Property Details All Route 
+Route::get('/property/details/{id}/{slug}', [IndexController::class, 'PropertyDetails']);
+
 
 
 // Agent All Route from admin 
@@ -145,14 +149,8 @@ Route::middleware(['auth','role:admin'])->group(function (){
         Route::get('/package/invoice/{id}', 'PackageInvoice')->name('package.invoice');
 
 
-  
-
-
-
-
-
-
-
     });  
 });//END GROUP ADMIN MIDDLEWARE
+
+ 
 
