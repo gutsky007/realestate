@@ -12,6 +12,9 @@ use Intervention\Image\Facades\Image;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use App\Models\PackagePlan;
+
 class AgentPropertyController extends Controller
 {
     public function AgentAllProperty(){
@@ -23,11 +26,26 @@ class AgentPropertyController extends Controller
     public function AgentAddProperty(){
         $propertytype = PropertyType::latest()->get();
         $amenities = Amenities::latest()->get();
+
+        $id = Auth::user()->id;
+        $property = User::where('role','agent')->where('id',$id)->first();
+        $pcount = $property->credit;
+        // dd($pcount);
         
-        return view('agent.property.add_property',compact('propertytype','amenities'));
+        if ($pcount == 1 || $pcount == 7) {
+        return redirect()->route('buy.package');
+        }else{
+            return view('agent.property.add_property',compact('propertytype','amenities'));
+        }
     }// End Method 
 
     public function AgentStoreProperty(Request $request){
+
+        $id = Auth::user()->id;
+        $uid = User::findOrFail($id);
+        $nid = $uid->credit;
+
+
         $amen = $request->amenities_id;
         $amenities = implode(",", $amen);
         // dd($amen);
@@ -106,7 +124,12 @@ class AgentPropertyController extends Controller
         }
         }
          /// End Facilities  ////
-            $notification = array(
+
+        User::where('id',$id)->update([
+            'credit' => DB::raw('1 + '.$nid),
+        ]);
+
+        $notification = array(
             'message' => 'Property Inserted Successfully',
             'alert-type' => 'success'
         );
@@ -320,5 +343,74 @@ class AgentPropertyController extends Controller
     
     }// End Method  
 
-} 
+    public function BuyPackage(){
 
+        return view('agent.package.buy_package');
+    }// End Method 
+
+    public function BuyBusinessPlan(){
+        $id = Auth::user()->id;
+        $data = User::find($id);
+        return view('agent.package.business_plan',compact('data'));
+    }// End Method  
+
+    public function StoreBusinessPlan(Request $request){
+        $id = Auth::user()->id;
+        $uid = User::findOrFail($id);
+        $nid = $uid->credit;
+        
+        PackagePlan::insert([
+            'user_id' => $id,
+            'package_name' => 'Business',
+            'package_credits' => '3',
+            'invoice' => 'ERS'.mt_rand(10000000,99999999),
+            'package_amount' => '20',
+            'created_at' => Carbon::now(), 
+        ]);
+        
+        User::where('id',$id)->update([
+            'credit' => DB::raw('3 + '.$nid),
+        ]);
+        
+        $notification = array(
+            'message' => 'You have purchase Basic Package Successfully',
+            'alert-type' => 'success'
+        );
+        
+        return redirect()->route('agent.all.property')->with($notification); 
+    }// End Method 
+
+    public function BuyProfessionalPlan(){
+        $id = Auth::user()->id;
+        $data = User::find($id);
+        return view('agent.package.professional_plan',compact('data'));
+    }// End Method  
+    
+    public function StoreProfessionalPlan(Request $request){
+        $id = Auth::user()->id;
+        $uid = User::findOrFail($id);
+        $nid = $uid->credit;
+    
+        PackagePlan::insert([
+            'user_id' => $id,
+            'package_name' => 'Professional',
+            'package_credits' => '10',
+            'invoice' => 'ERS'.mt_rand(10000000,99999999),
+            'package_amount' => '50',
+            'created_at' => Carbon::now(), 
+        ]);
+        
+        User::where('id',$id)->update([
+            'credit' => DB::raw('10 + '.$nid),
+        ]);
+        
+        $notification = array(
+            'message' => 'You have purchase Professional Package Successfully',
+            'alert-type' => 'success'
+        );
+        
+        return redirect()->route('agent.all.property')->with($notification);  
+    }// End Method 
+
+
+} 

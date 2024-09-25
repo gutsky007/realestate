@@ -56,7 +56,7 @@ Route::middleware(['auth', 'role:agent'])->group(function () {
 
 
      // Agent All Property  
-    Route::controller(AgentPropertyController::class)->group(function(){
+Route::controller(AgentPropertyController::class)->group(function(){
     Route::get('/agent/all/property', 'AgentAllProperty')->name('agent.all.property'); 
     Route::get('/agent/add/property', 'AgentAddProperty')->name('agent.add.property'); 
     Route::post('/agent/store/property', 'AgentStoreProperty')->name('agent.store.property');
@@ -70,13 +70,21 @@ Route::middleware(['auth', 'role:agent'])->group(function () {
     Route::get('/agent/details/property/{id}', 'AgentDetailsProperty')->name('agent.details.property'); 
     Route::get('/agent/delete/property/{id}', 'AgentDeleteProperty')->name('agent.delete.property'); 
 
+    // Agent Buy Package Route from admin 
+    Route::get('/buy/package', 'BuyPackage')->name('buy.package');
+    Route::get('/buy/business/plan', 'BuyBusinessPlan')->name('buy.business.plan');
+    Route::post('/store/business/plan', 'StoreBusinessPlan')->name('store.business.plan');
+    Route::get('/buy/professional/plan', 'BuyProfessionalPlan')->name('buy.professional.plan');
+    Route::post('/store/professional/plan', 'StoreProfessionalPlan')->name('store.professional.plan');
 
-    
 });
 
 });//END GROUP AGENT MIDDLEWARE
 Route::get('/agent/login', [AgentController::class, 'AgentLogin'])->name('agent.login')->middleware(RedirectIfAuthenticated::class); 
 Route::post('/agent/register', [AgentController::class, 'AgentRegister'])->name('agent.register'); 
+
+
+
 
 // Agent All Route from admin 
 Route::controller(AdminController::class)->group(function(){
