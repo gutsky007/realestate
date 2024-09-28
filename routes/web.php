@@ -9,6 +9,7 @@ use App\Http\Controllers\Backend\PropertyTypeController;
 use App\Http\Controllers\Backend\PropertyController;
 use App\Http\Controllers\Agent\AgentPropertyController;
 use App\Http\Controllers\Frontend\IndexController;
+use App\Http\Controllers\Frontend\WishlistController;
 use Illuminate\Auth\Middleware\RedirectIfAuthenticated;
 // Route::get('/', function () {
 //     return view('welcome');
@@ -29,6 +30,16 @@ Route::middleware('auth')->group(function () {
     Route::post('/user/profile/store', [UserController::class, 'UserProfileStore'])->name('user.profile.store');
     Route::post('/user/update/password', [UserController::class, 'UserUpdatePassword'])->name('user.update.password');
 });//END USER GROUP MIDDLEWARE
+
+// User WishlistAll Route 
+Route::controller(WishlistController::class)->group(function(){
+    Route::get('/user/wishlist', 'UserWishlist')->name('user.wishlist');
+    Route::get('/get-wishlist-property', 'GetWishlistProperty');
+    Route::delete('/delete-wishlist-item/{propertyId}', [WishlistController::class, 'deleteWishlistItem']);
+    
+
+
+});
 
 require __DIR__.'/auth.php';
 
@@ -86,11 +97,6 @@ Route::controller(AgentPropertyController::class)->group(function(){
 });//END GROUP AGENT MIDDLEWARE
 Route::get('/agent/login', [AgentController::class, 'AgentLogin'])->name('agent.login')->middleware(RedirectIfAuthenticated::class); 
 Route::post('/agent/register', [AgentController::class, 'AgentRegister'])->name('agent.register'); 
-
-
-// Frontend Property Details All Route 
-Route::get('/property/details/{id}/{slug}', [IndexController::class, 'PropertyDetails']);
-
 
 
 // Agent All Route from admin 
@@ -152,5 +158,9 @@ Route::middleware(['auth','role:admin'])->group(function (){
     });  
 });//END GROUP ADMIN MIDDLEWARE
 
- 
+// Frontend Property Details All Route 
+Route::get('/property/details/{id}/{slug}', [IndexController::class, 'PropertyDetails']);
+
+// Wishlist Add Route 
+Route::post('/add-to-wishlist/{property_id}', [WishlistController::class, 'AddToWishList']);
 

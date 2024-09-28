@@ -10,6 +10,8 @@
 <!-- Fav Icon -->
 <link rel="icon" href="{{ asset('frontend/assets/images/favicon.ico') }}" type="image/x-icon">
 
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
 <!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
@@ -44,7 +46,7 @@
 
 
         <!-- switcher menu -->
-   
+
         <!-- end switcher menu -->
 
 
@@ -121,8 +123,140 @@
     @endif 
     </script>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
+<script type="text/javascript">
+    $.ajaxSetup({
+        headers:{
+            'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
+        }
+    })
+    
+// Add To Wishlist 
+function addToWishList(property_id){
+    try {
+        console.log($('meta[name="csrf-token"]').attr('content')); // Print out the CSRF token
+        $.ajax({
+            type: "POST",
+            dataType: 'json',
+            url: "/add-to-wishlist/"+property_id,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success:function(data){
 
+                wishlist();
+                // Start Message 
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000 
+                })
+                if ($.isEmptyObject(data.error)) {
+                    Toast.fire({
+                        type: 'success',
+                        icon: 'success', 
+                        title: data.success, 
+                    })
+                } else {
+                    Toast.fire({
+                        type: 'error',
+                        icon: 'error', 
+                        title: data.error, 
+                    })
+                }
+                // End Message  
+            }
+        })
+    } catch (error) {
+        console.error(error)
+    }
+    $('#'+property_id).toggleClass('btn-success');
+
+}
+</script>
+
+<!-- // start load Wishlist Data  -->
+<script>
+    var wishlistUrl = "{{ url('get-wishlist-property') }}";
+    function wishlist(){
+        console.log('wishlist function called');
+        $.ajax({    
+            type: "GET",
+            dataType: 'json',
+            url: wishlistUrl,
+            success:function(response){
+                console.log('response received:', response);
+                if (response) {
+                    console.log('response is not empty');
+                    $('#wishQty').text(response.wishQty);
+                    var rows = ""
+                    $.each(response.wishlist, function(key,value){
+                        console.log('processing wishlist item:', value);
+                        if (value.property) {
+                            rows += `<div class="deals-block-one">
+                                <div class="inner-box">
+                                    <div class="image-box">
+                                        <figure class="image"><img src="/${value.property.property_thumbnail}" alt=""></figure>
+                                        <div class="batch"><i class="icon-11"></i></div>
+                                        <span class="category">Featured</span>
+                                        <div class="buy-btn"><a href="#">For ${value.property.property_status}</a></div>
+                                    </div>
+                                    <div class="lower-content">
+                                        <div class="title-text"><h4><a href="">${value.property.property_name}</a></h4></div>
+                                        <div class="price-box clearfix">
+                                            <div class="price-info pull-left">
+                                                <h6>Start From</h6>
+                                                <h4>$${value.property.lowest_price}</h4>
+                                            </div>
+                                            
+                                        </div>
+                                    
+                                        <ul class="more-details clearfix">
+                                            <li><i class="icon-14"></i>${value.property.bedrooms} Beds</li>
+                                            <li><i class="icon-15"></i>${value.property.bathrooms} Baths</li>
+                                            <li><i class="icon-16"></i>${value.property.property_size} Sq Ft</li>
+                                        </ul>
+                                        <div class="other-info-box clearfix">
+                                            
+                                            <ul class="other-option pull-right clearfix">
+                                            <li><a type="submit" class="text-body" id="${value.property.id}" onclick="deleteWishlistItem(this.id)" ><i class="fa fa-trash"></i></a></li>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> `  
+                        }
+                    });
+                    console.log('rows generated:', rows);
+                    $('#wishlist').html(rows); 
+                }
+            },
+            error: function(xhr, status, error) {
+                console.log('error occurred:', xhr.responseText);
+            }
+        })
+    }
+    wishlist();
+</script>
+
+<script>
+    function deleteWishlistItem(id) {
+    $.ajax({
+        type: "DELETE",
+        url: "/delete-wishlist-item/" + id,
+        success: function() {
+            console.log('Wishlist item deleted successfully');
+            // Refresh the wishlist
+            wishlist();
+        },
+        error: function(xhr, status, error) {
+            console.log('Error deleting wishlist item:', xhr.responseText);
+        }
+    });
+}
+</script>
 
 </body><!-- End of .page_wrapper -->
 </html>

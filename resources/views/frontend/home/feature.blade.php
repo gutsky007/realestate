@@ -41,10 +41,10 @@ $property = App\Models\Property::where('status','1')->where('featured','1')->lim
                                 </div>
                                 <ul class="other-option pull-right clearfix">
                                     <li><a href="property-details.html"><i class="icon-12"></i></a></li>
-                                    <li><a href="property-details.html"><i class="icon-13"></i></a></li>
+                                    <li><a aria-label="Add To Wishlist" class="action-btn" id="{{ $item->id }}" onclick="addToWishList(this.id)" ><i class="icon-13"></i></a></li>
                                 </ul>
                             </div>
-                            <p>{{ $item->short_descp }}</p>
+                            <p>{{ $item->short_description }}</p>
                             <ul class="more-details clearfix">
                                 <li><i class="icon-14"></i>{{ $item->bedrooms }} Beds</li>
                                 <li><i class="icon-15"></i>{{ $item->bathrooms }} Baths</li>
