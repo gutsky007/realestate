@@ -29,6 +29,10 @@
 <link href="{{ asset('frontend/assets/css/style.css') }}" rel="stylesheet">
 <link href="{{ asset('frontend/assets/css/responsive.css') }}" rel="stylesheet">
 
+{{-- custom css --}}
+<style>
+    .btn-green {background-color: #2DBE6C;color: #fff;}</style>
+
 
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" >
 </head>
@@ -172,7 +176,7 @@ function addToWishList(property_id){
     } catch (error) {
         console.error(error)
     }
-    $('#'+property_id).toggleClass('btn-success');
+    $('#'+property_id).toggleClass('btn-green');
 
 }
 </script>
@@ -243,19 +247,33 @@ function addToWishList(property_id){
 
 <script>
     function deleteWishlistItem(id) {
-    $.ajax({
-        type: "DELETE",
-        url: "/delete-wishlist-item/" + id,
-        success: function() {
-            console.log('Wishlist item deleted successfully');
-            // Refresh the wishlist
-            wishlist();
-        },
-        error: function(xhr, status, error) {
-            console.log('Error deleting wishlist item:', xhr.responseText);
-        }
-    });
-}
+        $.ajax({
+            type: "DELETE",
+            url: "/delete-wishlist-item/" + id,
+            success: function() {
+                console.log('Wishlist item deleted successfully');
+                // Display a notification
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Wishlist item deleted successfully',
+                    icon: 'success',
+                    timer: 2000
+                });
+                // Refresh the wishlist
+                wishlist();
+            },
+            error: function(xhr, status, error) {
+                console.log('Error deleting wishlist item:', xhr.responseText);
+                // Display an error notification
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Failed to delete wishlist item',
+                    icon: 'error',
+                    timer: 2000
+                });
+            }
+        });
+    }
 </script>
 
 </body><!-- End of .page_wrapper -->
