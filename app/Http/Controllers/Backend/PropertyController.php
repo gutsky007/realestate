@@ -10,6 +10,7 @@ use App\Models\Property;
 use App\Models\PropertyType;
 use App\Models\Amenities;
 use App\Models\User;
+use App\Models\PropertyMessage;
 use Intervention\Image\Facades\Image;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Carbon\Carbon;
@@ -478,5 +479,9 @@ class PropertyController extends Controller
         return $pdf->download('invoice.pdf');
     }// End Method 
 
+    public function AdminPropertyMessage(){
 
+        $usermsg = PropertyMessage::latest()->get();
+        return view('backend.message.all_message',compact('usermsg'));
+    }// End Method 
 }

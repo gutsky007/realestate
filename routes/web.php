@@ -86,7 +86,10 @@ Route::controller(AgentPropertyController::class)->group(function(){
     Route::post('/agent/store/new/multiimage', 'AgentStoreNewMultiimage')->name('agent.store.new.multiimage');
     Route::post('/agent/update/property/facilities', 'AgentUpdatePropertyFacilities')->name('agent.update.property.facilities');
     Route::get('/agent/details/property/{id}', 'AgentDetailsProperty')->name('agent.details.property'); 
-    Route::get('/agent/delete/property/{id}', 'AgentDeleteProperty')->name('agent.delete.property'); 
+    Route::get('/agent/delete/property/{id}', 'AgentDeleteProperty')->name('agent.delete.property');
+    Route::get('/agent/property/message/', 'AgentPropertyMessage')->name('agent.property.message');  
+    Route::get('/agent/message/details/{id}', 'AgentMessageDetails')->name('agent.message.details');   
+
 
     // Agent Buy Package Route from admin 
     Route::get('/buy/package', 'BuyPackage')->name('buy.package');
@@ -159,6 +162,8 @@ Route::middleware(['auth','role:admin'])->group(function (){
         Route::post('/active/property', 'ActiveProperty')->name('active.property');
         Route::get('/admin/package/history', 'AdminPackageHistory')->name('admin.package.history');
         Route::get('/package/invoice/{id}', 'PackageInvoice')->name('package.invoice');
+        Route::get('/admin/property/message/', 'AdminPropertyMessage')->name('admin.property.message');
+
 
 
     });  
@@ -173,3 +178,5 @@ Route::post('/add-to-wishlist/{property_id}', [WishlistController::class, 'AddTo
   // Compare Add Route 
 Route::post('/add-to-compare/{property_id}', [CompareController::class, 'AddToCompare']);
 
+// Send Message from Property Details Page 
+Route::post('/property/message', [IndexController::class, 'PropertyMessage'])->name('property.message');
