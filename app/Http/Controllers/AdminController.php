@@ -81,7 +81,7 @@ class AdminController extends Controller
         //Validation
         $request->validate([
             'old_password' => 'required',
-             'new_password' => 'required|confirmed',
+            'new_password' => 'required|confirmed',
         ]);
 
         ///Match the Old Password
@@ -94,7 +94,7 @@ class AdminController extends Controller
         } //End Method
 
         ///Update the New Password
-        User::whereId(auth()->user()->id)->update([
+        User::whereId(Auth::user()->id)->update([
             'password'=> Hash::make($request->new_password)
         ]);
         $notification = array(
@@ -167,6 +167,5 @@ class AdminController extends Controller
     }// End Method 
     
 
-    
 
 }
