@@ -193,8 +193,8 @@
                                 <h5>Status Of Property</h5>
                             </div>
                             <ul class="category-list clearfix">
-                                <li><a href="agents-details.html">For Rent <span>(200)</span></a></li>
-                                <li><a href="agents-details.html">For Sale <span>(700)</span></a></li>
+                                <li><a href="{{ route('rent.property') }}">For Rent <span>({{ count($rentproperty) }})</span></a></li>
+                                <li><a href="{{ route('buy.property') }}">For Buy <span>({{ count($buyproperty) }})</span></a></li>
                             </ul>
                         </div>
                         {{-- Featured Widget --}}
@@ -207,7 +207,7 @@
                                     <div class="feature-block-one">
                                         <div class="inner-box">
                                             <div class="image-box">
-                                                <figure class="image"><img src="{{ asset($feat->property_thambnail  ) }}" alt="" style="width:370px; height:250px;"></figure>
+                                                <figure class="image"><img src="{{ asset($feat->property_thumbnail  ) }}" alt="" style="width:370px; height:250px;"></figure>
                                                 <div class="batch"><i class="icon-11"></i></div>
                                                 <span class="category">Featured</span>
                                             </div>

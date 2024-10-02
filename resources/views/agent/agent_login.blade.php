@@ -81,7 +81,7 @@
                 <div class="form-group message-btn">
                     <button type="submit" class="theme-btn btn-one">Register</button>
                 </div>
-            </form>
+            </form>ww
             <div class="othre-text">
                 <p>Have not any account? <a href="signup.html">Register Now</a></p>
             </div>
