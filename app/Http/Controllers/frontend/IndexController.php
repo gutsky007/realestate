@@ -11,6 +11,7 @@ use App\Models\Amenities;
 use App\Models\PropertyType; 
 use App\Models\User;
 use App\Models\PackagePlan;
+use App\Models\State; 
 use Illuminate\Support\Facades\Auth;
 use App\Models\PropertyMessage;  
 use Carbon\Carbon;
@@ -111,6 +112,12 @@ public function AgentDetailsMessage(Request $request){
         $property = Property::where('status','1')->where('propertyType_id',$id)->get();
         $pbread = PropertyType::where('id',$id)->first();
         return view('frontend.property.property_type',compact('property','pbread'));
+    }// End Method 
+
+    public function StateDetails($id){
+        $property = Property::where('status','1')->where('state',$id)->get();
+        $bstate = State::where('id',$id)->first();
+        return view('frontend.property.state_property',compact('property','bstate'));
     }// End Method 
 
 
