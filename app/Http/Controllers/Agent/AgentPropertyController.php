@@ -8,6 +8,7 @@ use App\Models\Facility;
 use App\Models\Amenities;
 use App\Models\PropertyType;
 use App\Models\User;
+use App\Models\State;
 use Intervention\Image\Facades\Image;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Carbon\Carbon;
@@ -28,6 +29,7 @@ class AgentPropertyController extends Controller
     public function AgentAddProperty(){
         $propertytype = PropertyType::latest()->get();
         $amenities = Amenities::latest()->get();
+        $pstate = State::latest()->get();
 
         $id = Auth::user()->id;
         $property = User::where('role','agent')->where('id',$id)->first();
@@ -37,7 +39,7 @@ class AgentPropertyController extends Controller
         if ($pcount == 1 || $pcount == 7) {
         return redirect()->route('buy.package');
         }else{
-            return view('agent.property.add_property',compact('propertytype','amenities'));
+            return view('agent.property.add_property',compact('propertytype','amenities','pstate'));
         }
     }// End Method 
 
@@ -148,12 +150,13 @@ class AgentPropertyController extends Controller
 
         $multiImage = MultiImage::where('property_id',$id)->get();
         
+        $pstate = State::latest()->get();
         $propertytype = PropertyType::latest()->get();
         $amenities = Amenities::latest()->get();
         $activeAgent = User::where('status','active')->where('role','agent')->latest()->get();
 
         return view('agent.property.edit_property',compact('property','propertytype','amenities',
-        'activeAgent','property_amenities','multiImage','facilities'));
+        'activeAgent','property_amenities','multiImage','facilities', 'pstate'));
 
     }// End Method 
     public function AgentUpdateProperty(Request $request){

@@ -102,7 +102,7 @@ public function AgentDetailsMessage(Request $request){
     }// End Method 
 
     public function BuyProperty(){
-        $property = Property::where('status','1')->where('property_status','rent')->paginate(3);
+        $property = Property::where('status','1')->where('property_status','buy')->paginate(3);
 
         return view('frontend.property.buy_property',compact('property'));
     }// End Method 

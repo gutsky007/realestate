@@ -11,6 +11,7 @@ use App\Models\PropertyType;
 use App\Models\Amenities;
 use App\Models\User;
 use App\Models\PropertyMessage;
+use App\Models\State;
 use Intervention\Image\Facades\Image;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Carbon\Carbon;
@@ -29,11 +30,12 @@ class PropertyController extends Controller
     public function AddProperty(){
 
         $propertytype = PropertyType::latest()->get();
+        $pstate = State::latest()->get();
         $amenities = Amenities::latest()->get();
         $activeAgent = User::where('status', 'active')->
             where('role', 'agent')->latest()->get();
 
-        return view("backend.property.add_property",compact('propertytype','amenities','activeAgent'));
+        return view("backend.property.add_property",compact('propertytype','amenities','activeAgent','pstate'));
 
     }//End Method
 
@@ -150,12 +152,13 @@ class PropertyController extends Controller
 
         $multiImage = MultiImage::where('property_id',$id)->get();
         
+        $pstate = State::latest()->get();
         $propertytype = PropertyType::latest()->get();
         $amenities = Amenities::latest()->get();
         $activeAgent = User::where('status','active')->where('role','agent')->latest()->get();
 
         return view('backend.property.edit_property',compact('property','propertytype','amenities',
-        'activeAgent','property_amenities','multiImage','facilities'));
+        'activeAgent','property_amenities','multiImage','facilities','pstate'));
 
     }// End Method 
 

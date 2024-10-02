@@ -11,6 +11,7 @@ use App\Http\Controllers\Agent\AgentPropertyController;
 use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\Frontend\WishlistController;
 use App\Http\Controllers\Frontend\CompareController;
+use App\Http\Controllers\Backend\StateController;
 use Illuminate\Auth\Middleware\RedirectIfAuthenticated;
 // Route::get('/', function () {
 //     return view('welcome');
@@ -163,10 +164,19 @@ Route::middleware(['auth','role:admin'])->group(function (){
         Route::get('/admin/package/history', 'AdminPackageHistory')->name('admin.package.history');
         Route::get('/package/invoice/{id}', 'PackageInvoice')->name('package.invoice');
         Route::get('/admin/property/message/', 'AdminPropertyMessage')->name('admin.property.message');
+    }); 
+    
+     // State  All Route 
+    Route::controller(StateController::class)->group(function(){
+        Route::get('/all/state', 'AllState')->name('all.state'); 
+        Route::get('/add/state', 'AddState')->name('add.state');
+        Route::post('/store/state', 'StoreState')->name('store.state'); 
+        Route::get('/edit/state/{id}', 'EditState')->name('edit.state');
+        Route::post('/update/state', 'UpdateState')->name('update.state');      
+        Route::get('/delete/state/{id}', 'DeleteState')->name('delete.state');  
 
+    });
 
-
-    });  
 });//END GROUP ADMIN MIDDLEWARE
 
 // Frontend Property Details All Route 

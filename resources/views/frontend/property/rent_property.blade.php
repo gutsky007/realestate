@@ -181,9 +181,9 @@
                         </div>
                         <div class="pagination-wrapper">
                             <ul class="pagination clearfix">
-                            <div class="pagination-wrapper">
-                                {{ $property->links('vendor.pagination.custom') }}
-                            </div>
+                                <div class="pagination-wrapper">
+                                    {{ $property->links('vendor.pagination.custom') }}
+                                </div>
                             </ul>
                         </div>
                     </div>
