@@ -129,11 +129,42 @@
             {{-- <li class="nav-item">
               <a href="{{ route('add.testimonials') }}" class="nav-link">Add Testimonials</a> 
             </li> --}}
-
           </ul>
         </div>
       </li>
 
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="collapse" href="#blogcategory" role="button" aria-expanded="false" aria-controls="uiComponents">
+          <i class="link-icon" data-feather="feather"></i>
+          <span class="link-title">Blog Category </span>
+          <i class="link-arrow" data-feather="chevron-down"></i>
+        </a>
+        <div class="collapse" id="blogcategory">
+          <ul class="nav sub-menu">
+            <li class="nav-item">
+              <a href="{{ route('all.blog.category') }}" class="nav-link">All Blog Category </a>
+            </li> 
+          </ul>
+        </div>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="collapse" href="#Post" role="button" aria-expanded="false" aria-controls="uiComponents">
+          <i class="link-icon" data-feather="feather"></i>
+          <span class="link-title">Blog Post </span>
+          <i class="link-arrow" data-feather="chevron-down"></i>
+        </a>
+        <div class="collapse" id="Post">
+          <ul class="nav sub-menu">
+            <li class="nav-item">
+              <a href="{{ route('all.post') }}" class="nav-link">All Post </a>
+            </li>
+            {{-- <li class="nav-item">
+              <a href="{{ route('add.post') }}" class="nav-link">Add Post </a>
+            </li>  --}}
+          </ul>
+        </div>
+      </li>
 
       <li class="nav-item nav-category">User All Function</li>
       <li class="nav-item">
